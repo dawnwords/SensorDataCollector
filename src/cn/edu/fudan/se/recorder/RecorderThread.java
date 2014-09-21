@@ -10,7 +10,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 /**
  * Created by Dawnwords on 2014/9/21.
  */
-public class RecorderThread extends Thread {
+public class RecorderThread extends Thread implements Recorder {
     private static final String DB_PATH = "sensor.db";
 
     private BlockingQueue<Tuple> tupleQueue;
@@ -35,7 +35,8 @@ public class RecorderThread extends Thread {
         db.close();
     }
 
-    public void put(Tuple tuple) {
+    @Override
+    public void record(Tuple tuple) {
         try {
             tupleQueue.put(tuple);
         } catch (InterruptedException e) {

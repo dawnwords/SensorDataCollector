@@ -29,7 +29,7 @@ public class RecordService extends Service {
     public class RecordBinder extends Binder implements Recorder {
         @Override
         public void record(Tuple tuple) {
-            recorderThread.put(tuple);
+            recorderThread.record(tuple);
         }
     }
 }
