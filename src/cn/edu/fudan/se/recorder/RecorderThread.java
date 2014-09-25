@@ -2,6 +2,7 @@ package cn.edu.fudan.se.recorder;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.ConcurrentSkipListSet;
@@ -12,7 +13,6 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class RecorderThread extends Thread implements Recorder {
     private static final String DB_PATH = "sensor.db";
-
     private BlockingQueue<Tuple> tupleQueue;
     private ConcurrentSkipListSet<String> tableCreated;
     private SQLiteDatabase db;
@@ -39,14 +39,20 @@ public class RecorderThread extends Thread implements Recorder {
     public void record(Tuple tuple) {
         try {
             tupleQueue.put(tuple);
+            logTupleQueueSize();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
+    private void logTupleQueueSize() {
+        Log.d("Tuple Queue Size", "" + tupleQueue.size());
+    }
+
     private void saveToDB(Tuple tuple) {
         if (!tableCreated.contains(tuple.name)) {
             tableCreated.add(tuple.name);
+            logTupleQueueSize();
             createTable(tuple.name, tuple.values.length);
         }
         insertTable(tuple);

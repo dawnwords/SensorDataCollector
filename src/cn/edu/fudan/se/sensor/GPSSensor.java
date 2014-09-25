@@ -28,6 +28,7 @@ public class GPSSensor extends AbstractSensor {
             long timestamp = System.currentTimeMillis();
             try {
                 SensorEvent event = SensorEvent.class.newInstance();
+                //TODO possibly buggy to set final field
                 forceSet(event, "values", new float[]{longitude, latitude});
                 forceSet(event, "accuracy", accuracy);
                 forceSet(event, "timestamp", timestamp);
