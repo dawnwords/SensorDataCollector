@@ -3,6 +3,7 @@ package cn.edu.fudan.se.sensor;
 import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.util.Log;
 import cn.edu.fudan.se.recorder.Recorder;
 
 /**
@@ -24,10 +25,12 @@ public class BaseSensor extends AbstractSensor {
     }
 
     public void start() {
+        Log.d(getTupleTag(),"start");
         manager.registerListener(this, sensor, SensorManager.SENSOR_DELAY_NORMAL);
     }
 
     public void stop() {
+        Log.d(getTupleTag(),"stop");
         manager.unregisterListener(this);
     }
 

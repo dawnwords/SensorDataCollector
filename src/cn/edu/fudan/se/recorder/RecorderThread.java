@@ -58,7 +58,7 @@ public class RecorderThread extends Thread implements Recorder {
     }
 
     private void insertTable(Tuple tuple) {
-        String sql = "insert into " + tuple.name + " values (datetime('now'),";
+        String sql = "insert into '" + tuple.name + "' values (datetime('now','localtime'),";
         for (float value : tuple.values) {
             sql += value + ",";
         }
@@ -66,7 +66,7 @@ public class RecorderThread extends Thread implements Recorder {
     }
 
     private void createTable(String tableName, int valueNum) {
-        String sql = "create table if not exists " + tableName + "(time TIMESTAMP,";
+        String sql = "create table if not exists '" + tableName + "'(time TIMESTAMP,";
         for (int i = 0; i < valueNum; i++) {
             sql += "value" + i + " float,";
         }
@@ -75,7 +75,6 @@ public class RecorderThread extends Thread implements Recorder {
 
     private void executeSQL(String sql) {
         sql = sql.substring(0, sql.length() - 1) + ")";
-        Log.d("Execute SQL", sql);
         try {
             db.execSQL(sql);
         } catch (Exception e) {

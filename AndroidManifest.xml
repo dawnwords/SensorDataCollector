@@ -15,6 +15,13 @@
         <service android:name="cn.edu.fudan.se.recorder.RecordService"/>
     </application>
 
-    <permission android:name="android.permission.SENSOR_ENABLE"/>
-    <permission android:name="android.permission.SENSOR_INFO"/>
+    <uses-permission android:name="android.permission.SENSOR_ENABLE"/>
+    <uses-permission android:name="android.permission.SENSOR_INFO"/>
+
+    <uses-permission android:name="android.permission.ACCESS_GPS" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
 </manifest>

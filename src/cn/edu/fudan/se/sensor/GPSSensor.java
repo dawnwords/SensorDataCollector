@@ -3,11 +3,11 @@ package cn.edu.fudan.se.sensor;
 import android.content.Context;
 import android.hardware.SensorEvent;
 import android.hardware.SensorManager;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import cn.edu.fudan.se.recorder.Recorder;
 
 import java.lang.reflect.Field;
@@ -71,22 +71,14 @@ public class GPSSensor extends AbstractSensor {
 
     @Override
     public void start() {
-        manager.requestLocationUpdates(getBestProvider(), 1000, 1, listener);
+        Log.d(getTupleTag(), "start");
+        manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, listener);
+        manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, listener);
     }
 
     @Override
     public void stop() {
+        Log.d(getTupleTag(), "stop");
         manager.removeUpdates(listener);
-    }
-
-
-    private String getBestProvider() {
-        Criteria criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_HIGH);
-        criteria.setAltitudeRequired(false);
-        criteria.setBearingRequired(false);
-        criteria.setCostAllowed(true);
-        criteria.setPowerRequirement(Criteria.POWER_LOW);
-        return manager.getBestProvider(criteria, true);
     }
 }

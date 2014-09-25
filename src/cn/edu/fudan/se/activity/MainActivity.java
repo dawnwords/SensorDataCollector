@@ -12,13 +12,15 @@ import android.util.Log;
 import cn.edu.fudan.se.SensorDataCollector.R;
 import cn.edu.fudan.se.recorder.RecordService;
 import cn.edu.fudan.se.recorder.Recorder;
+import cn.edu.fudan.se.sensor.AbstractSensor;
 import cn.edu.fudan.se.sensor.BaseSensor;
+import cn.edu.fudan.se.sensor.GPSSensor;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public class MainActivity extends Activity {
-    private List<BaseSensor> sensors;
+    private List<AbstractSensor> sensors;
     private Recorder recorder;
     private ServiceConnection connection;
 
@@ -26,16 +28,20 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        bindRecordService();
-        initSensors();
-        startSensors();
     }
 
     @Override
-    protected void onDestroy() {
-        stopSensors();
+    protected void onResume() {
+        super.onResume();
+        bindRecordService();
+    }
+
+
+    @Override
+    protected void onPause() {
         unbindService(connection);
-        super.onDestroy();
+        stopSensors();
+        super.onPause();
     }
 
 
@@ -45,6 +51,8 @@ public class MainActivity extends Activity {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
                 recorder = (RecordService.RecordBinder) iBinder;
+                initSensors();
+                startSensors();
                 Log.d("Service", "Connected");
             }
 
@@ -58,18 +66,24 @@ public class MainActivity extends Activity {
     }
 
     private void initSensors() {
-        sensors = new LinkedList<BaseSensor>();
-        sensors.add(new BaseSensor(this, Sensor.TYPE_GRAVITY, recorder));
+        sensors = new LinkedList<AbstractSensor>();
+//        sensors.add(getSensor(Sensor.TYPE_GRAVITY));
+//        sensors.add(getSensor(Sensor.TYPE_AMBIENT_TEMPERATURE));
+        sensors.add(new GPSSensor(this, recorder));
+    }
+
+    private AbstractSensor getSensor(int type) {
+        return new BaseSensor(this, type, recorder);
     }
 
     private void startSensors() {
-        for (BaseSensor sensor : sensors) {
+        for (AbstractSensor sensor : sensors) {
             sensor.start();
         }
     }
 
     private void stopSensors() {
-        for (BaseSensor sensor : sensors) {
+        for (AbstractSensor sensor : sensors) {
             sensor.stop();
         }
     }

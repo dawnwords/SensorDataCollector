@@ -24,7 +24,6 @@ public abstract class AbstractSensor implements SensorEventListener {
     public void onSensorChanged(SensorEvent sensorEvent) {
         if (recorder != null) {
             Tuple tuple = new Tuple(getTupleTag(), sensorEvent.values);
-            Log.d("Tuple", tuple.toString());
             recorder.record(tuple);
         }
     }
