@@ -66,8 +66,7 @@ public class GPSSensor extends AbstractSensor {
 
     @Override
     protected String getTupleTag() {
-        //TODO check other sensors' names
-        return null;
+        return "GPS Sensor";
     }
 
     @Override

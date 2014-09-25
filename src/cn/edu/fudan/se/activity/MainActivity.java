@@ -6,9 +6,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
 import android.hardware.Sensor;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.util.Log;
 import cn.edu.fudan.se.SensorDataCollector.R;
 import cn.edu.fudan.se.recorder.RecordService;
 import cn.edu.fudan.se.recorder.Recorder;
@@ -45,11 +45,13 @@ public class MainActivity extends Activity {
             @Override
             public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
                 recorder = (RecordService.RecordBinder) iBinder;
+                Log.d("Service", "Connected");
             }
 
             @Override
             public void onServiceDisconnected(ComponentName componentName) {
                 recorder = null;
+                Log.d("Service", "Disconnected");
             }
         };
         bindService(intent, connection, Context.BIND_AUTO_CREATE);

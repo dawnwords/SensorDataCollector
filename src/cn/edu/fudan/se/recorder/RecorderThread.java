@@ -25,11 +25,10 @@ public class RecorderThread extends Thread implements Recorder {
 
     @Override
     public void run() {
-        while (!this.isInterrupted()) {
+        while (!Thread.currentThread().isInterrupted()) {
             try {
                 saveToDB(tupleQueue.take());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+            } catch (InterruptedException ignored) {
             }
         }
         db.close();
@@ -76,6 +75,7 @@ public class RecorderThread extends Thread implements Recorder {
 
     private void executeSQL(String sql) {
         sql = sql.substring(0, sql.length() - 1) + ")";
+        Log.d("Execute SQL", sql);
         try {
             db.execSQL(sql);
         } catch (Exception e) {

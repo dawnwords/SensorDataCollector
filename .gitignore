@@ -1,4 +1,6 @@
 /.idea
 /gen
+/bin
+/out
 /*.iml
 /proguard-project.txt

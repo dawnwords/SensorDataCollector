@@ -4,6 +4,7 @@ import android.content.Context;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
+import android.util.Log;
 import cn.edu.fudan.se.recorder.Recorder;
 import cn.edu.fudan.se.recorder.Tuple;
 
@@ -22,9 +23,9 @@ public abstract class AbstractSensor implements SensorEventListener {
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         if (recorder != null) {
-            //TODO need to check length of sensorEvent.values?
-            //TODO check if sensor name can be a table name
-            recorder.record(new Tuple(getTupleTag(), sensorEvent.values));
+            Tuple tuple = new Tuple(getTupleTag(), sensorEvent.values);
+            Log.d("Tuple", tuple.toString());
+            recorder.record(tuple);
         }
     }
 
