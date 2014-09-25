@@ -56,9 +56,8 @@ public class MainActivity extends Activity {
     }
 
     private void initSensors() {
-        SensorManager manager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
         sensors = new LinkedList<BaseSensor>();
-        sensors.add(new BaseSensor(manager, Sensor.TYPE_GRAVITY, recorder));
+        sensors.add(new BaseSensor(this, Sensor.TYPE_GRAVITY, recorder));
     }
 
     private void startSensors() {
